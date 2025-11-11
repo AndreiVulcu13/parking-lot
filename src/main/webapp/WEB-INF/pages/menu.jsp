@@ -43,7 +43,7 @@
                     </a>
                 </li>
 
-                <!-- Usersa -->
+                <!-- Nav Users -->
                 <li class="nav-item">
                     <a class="nav-link${'Users' eq (requestScope.activePage) ? ' active' : ''}"
                        href="${pageContext.request.contextPath}/Users">Users</a>
