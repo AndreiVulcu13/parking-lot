@@ -1,15 +1,18 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
 
-<!-- Bootstrap Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
 
         <!-- Brand -->
-        <a class="navbar-brand" href="${pageContext.request.contextPath}">Parking Lot</a>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/">
+            Parking Lot
+        </a>
 
         <!-- Mobile toggle -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -17,44 +20,61 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <!-- Home (NU în /WEB-INF) -->
+                <!-- Home -->
                 <li class="nav-item">
-                    <a class="nav-link${pageContext.request.requestURI.substring(
-               pageContext.request.requestURI.lastIndexOf("/")) eq '/index.jsp' ? ' active' : ''}"
-                       href="${pageContext.request.contextPath}/index.jsp">
+                    <a class="nav-link${'Home' eq (requestScope.activePage) ? ' active' : ''}"
+                       href="${pageContext.request.contextPath}/">
                         Home
                     </a>
                 </li>
 
-                <!-- About (NU în /WEB-INF) -->
+                <!-- About -->
                 <li class="nav-item">
-                    <a class="nav-link${pageContext.request.requestURI.substring(
-               pageContext.request.requestURI.lastIndexOf("/")) eq '/about.jsp' ? ' active' : ''}"
+                    <a class="nav-link${'About' eq (requestScope.activePage) ? ' active' : ''}"
                        href="${pageContext.request.contextPath}/about.jsp">
                         About
                     </a>
                 </li>
 
-                <!-- Cars (activ via requestScope.activePage din servlet) -->
-                <li class="nav-item">
-                    <a class="nav-link${'Cars' eq (requestScope.activePage) ? ' active' : ''}"
-                       href="${pageContext.request.contextPath}/Cars">
-                        Cars
-                    </a>
-                </li>
+                <!-- Cars: vizibil doar pentru READ_CARS -->
+                <c:if test="${pageContext.request.isUserInRole('READ_CARS')}">
+                    <li class="nav-item">
+                        <a class="nav-link${'Cars' eq (requestScope.activePage) ? ' active' : ''}"
+                           href="${pageContext.request.contextPath}/Cars">
+                            Cars
+                        </a>
+                    </li>
+                </c:if>
 
-                <!-- Users -->
-                <li class="nav-item">
-                    <a class="nav-link${'Users' eq (requestScope.activePage) ? ' active' : ''}"
-                       href="${pageContext.request.contextPath}/Users">Users</a>
-                </li>
+                <!-- Users: vizibil doar pentru READ_USERS -->
+                <c:if test="${pageContext.request.isUserInRole('READ_USERS')}">
+                    <li class="nav-item">
+                        <a class="nav-link${'Users' eq (requestScope.activePage) ? ' active' : ''}"
+                           href="${pageContext.request.contextPath}/Users">
+                            Users
+                        </a>
+                    </li>
+                </c:if>
 
             </ul>
 
-            <!-- Right-side Login link -->
+            <!-- Right-side Login / Logout -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                    <c:choose>
+                        <c:when test="${pageContext.request.remoteUser == null}">
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/Login">
+                                Login
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="nav-link"
+                               href="${pageContext.request.contextPath}/Logout">
+                                Logout
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </li>
             </ul>
         </div>
