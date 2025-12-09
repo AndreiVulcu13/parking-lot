@@ -37,6 +37,14 @@
                                 ${u.username} • ${u.email}
                         </label>
                     </div>
+
+                    <!-- Buton Edit, vizibil doar pentru WRITE_USERS -->
+                    <c:if test="${pageContext.request.isUserInRole('WRITE_USERS')}">
+                        <a class="btn btn-sm btn-outline-secondary mt-1"
+                           href="${pageContext.request.contextPath}/EditUser?id=${u.id}">
+                            Edit
+                        </a>
+                    </c:if>
                 </div>
             </c:forEach>
 
