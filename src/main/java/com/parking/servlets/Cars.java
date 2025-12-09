@@ -40,7 +40,7 @@ public class Cars extends HttpServlet {
         List<CarDto> cars = carsBean.findAllCars();
         request.setAttribute("cars", cars);
 
-        int totalSpots = 100;
+        int totalSpots = 10; // conform cerinței: 10 locuri în total
         int numberOfFreeParkingSpots = Math.max(0, totalSpots - cars.size());
         request.setAttribute("numberOfFreeParkingSpots", numberOfFreeParkingSpots);
 
